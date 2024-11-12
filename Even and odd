@@ -1,0 +1,120 @@
+Study Variation of Exponential function and Sinc function 
+
+% Define the x values for both ranges
+x1 = linspace(0.01, 1, 500);  % Avoid x=0 for sinc(x)
+x2 = linspace(1.01, 5, 500);  % Range for x > 1
+
+% Calculate the exponential function values
+exp_x1 = exp(x1);
+exp_x2 = exp(x2);
+
+% Calculate the sinc function values
+sinc_x1 = sinc(x1);  % sinc(x) in MATLAB is normalized: sinc(pi*x)/(pi*x)
+sinc_x2 = sinc(x2);
+
+% Plot for 0 < x < 1
+subplot(2, 1, 1);
+plot(x1, exp_x1, 'r', 'LineWidth', 2);
+hold on;
+plot(x1, sinc_x1, 'b', 'LineWidth', 2);
+hold off;
+grid on;
+xlabel('x (0 < x < 1)');
+ylabel('f(x)');
+title('Exponential and Sinc functions for 0 < x < 1');
+legend('exp(x)', 'sinc(x)');
+
+% Plot for x > 1
+subplot(2, 1, 2);
+plot(x2, exp_x2, 'r', 'LineWidth', 2);
+hold on;
+plot(x2, sinc_x2, 'b', 'LineWidth', 2);
+hold off;
+grid on;
+xlabel('x (x > 1)');
+ylabel('f(x)');
+title('Exponential and Sinc functions for x > 1');
+legend('exp(x)', 'sinc(x)');
+
+
+                      
+Shifting and Scaling of Function W.r.t Dependent and Independent Axis
+clear all
+close all
+clc
+
+% Define the original signal
+x = linspace(-1, 1, 100);  % independent axis S1
+y = sqrt(1 - (x.^2));      % dependent axis S1
+a = linspace(2, 4, 100);   % independent axis S2
+b = sqrt(1 - (a - 3).^2);  % dependent axis S2
+
+c = linspace(1, 1.5, 25);  % independent axis S3
+y1 = 2 .* (1 - c);         % dependent axis S3
+d = linspace(1.5, 2, 25);  % independent axis S4
+y2 = (d - 2) ./ 0.5;       % dependent axis S4
+
+% Concatenate the segments
+z1 = [x, c];               % independent axis S1+S2
+z2 = [z1, d];              % independent axis (S1 + S2) + S3 
+z = [z2, a];               % independent axis (S1 + S2 + S3) + S4
+
+q1 = [y, y1];              % dependent axis S1 + S2
+q2 = [q1, y2];             % dependent axis (S1 + S2) + S3 
+q = [q2, b];               % dependent axis (S1 + S2 + S3) + S4
+ 
+
+% Plot the original signal x(t)
+subplot(4, 2, [1 2])
+plot(z, q);
+title("Original signal x(t)");
+xlim([-1 4]);
+ylim([-2 2]);
+grid on;
+
+% Plot x(2t) - time compression
+subplot(4, 2, 3)
+plot(z .* 0.5, q);
+title("x(2t)");
+xlim([-1 4]);
+ylim([-2 2]);
+grid on;
+
+% Plot x(t+2) - time shift to the left by 2
+subplot(4, 2, 4)
+plot(z - 2, q);
+title("x(t+2)");
+xlim([-4 4]);
+ylim([-2 2]);
+grid on;
+
+% Plot 2x(t) - amplitude scaling
+subplot(4, 2, 5)
+plot(z, 2 .* q);
+title("2x(t)");
+xlim([-1 4]);
+ylim([-2 2]);
+grid on;
+% Plot x(t) + 2 - vertical shift
+subplot(4, 2, 6)
+plot(z, q + 2);
+title("x(t) + 2");
+xlim([-1 4]);
+ylim([-4 4]);
+grid on;
+
+% Plot x(-t) - time reversal
+subplot(4, 2, 7)
+plot(-z, q);
+title("x(-t)");
+xlim([-4 4]);
+ylim([-2 2]);
+grid on;
+
+% Plot -x(t) - amplitude reversal
+subplot(4, 2, 8)
+plot(z,-q);
+title("-x(t)");
+xlim([-1 4]);
+ylim([-2 2]);
+grid on;
